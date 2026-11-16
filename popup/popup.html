@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="color-scheme" content="light dark">
+  <title>No Shorts</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon48.png" alt="" width="32" height="32">
+    <div class="title">
+      <h1>No Shorts</h1>
+      <p id="status">Active on YouTube</p>
+    </div>
+    <label class="switch" title="Turn the extension on or off">
+      <input type="checkbox" data-key="enabled" aria-label="Enabled">
+      <span class="track"></span>
+    </label>
+  </header>
+
+  <main>
+    <label class="row">
+      <span class="text">
+        <strong>Hide Shorts in feeds</strong>
+        <small>Home, subscriptions, search, watch sidebar and history</small>
+      </span>
+      <span class="switch">
+        <input type="checkbox" data-key="hideFeed">
+        <span class="track"></span>
+      </span>
+    </label>
+
+    <label class="row">
+      <span class="text">
+        <strong>Hide Shorts buttons</strong>
+        <small>Sidebar entry, channel Shorts tab and search filter</small>
+      </span>
+      <span class="switch">
+        <input type="checkbox" data-key="hideNav">
+        <span class="track"></span>
+      </span>
+    </label>
+
+    <label class="row">
+      <span class="text">
+        <strong>Open Shorts as normal videos</strong>
+        <small>Shorts links play in the regular player with a seek bar</small>
+      </span>
+      <span class="switch">
+        <input type="checkbox" data-key="redirect">
+        <span class="track"></span>
+      </span>
+    </label>
+
+    <label class="row">
+      <span class="text">
+        <strong>Hide YouTube games</strong>
+        <small>Playables shelf, game cards and the Playables sidebar link</small>
+      </span>
+      <span class="switch">
+        <input type="checkbox" data-key="hideGames">
+        <span class="track"></span>
+      </span>
+    </label>
+  </main>
+
+  <footer>Changes apply instantly.</footer>
+
+  <script src="../shared/defaults.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/*
+ * No Shorts for YouTube: hiding rules.
+ *
+ * Rules are active unless the content script marks <html> with
+ * data-noshorts-feed="off" / data-noshorts-nav="off". That way Shorts are
+ * hidden from the very first paint, before settings have loaded.
+ *
+ * :is() takes a forgiving selector list, so if YouTube renames an element
+ * the remaining selectors keep working.
+ */
+
+/* ---------- Shorts in feeds, search, watch sidebar, history ---------- */
+html:not([data-noshorts-feed="off"]) :is(
+  /* Shorts shelves */
+  ytd-reel-shelf-renderer,
+  ytd-rich-shelf-renderer[is-shorts],
+  ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts]),
+  ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model, ytm-shorts-lockup-view-model-v2, ytd-reel-item-renderer),
+  grid-shelf-view-model:has(ytm-shorts-lockup-view-model, ytm-shorts-lockup-view-model-v2),
+
+  /* Individual Shorts tiles */
+  ytd-reel-item-renderer,
+  ytm-shorts-lockup-view-model,
+  ytm-shorts-lockup-view-model-v2,
+
+  /* Regular video cards that point at a Short */
+  :is(
+    ytd-rich-item-renderer,
+    ytd-video-renderer,
+    ytd-grid-video-renderer,
+    ytd-compact-video-renderer,
+    yt-lockup-view-model,
+    ytd-notification-renderer
+  ):has(a:is([href^="/shorts/"], [href*="youtube.com/shorts/"])),
+
+  /* Video cards carrying the SHORTS overlay badge */
+  :is(
+    ytd-rich-item-renderer,
+    ytd-video-renderer,
+    ytd-grid-video-renderer,
+    ytd-compact-video-renderer
+  ):has(ytd-thumbnail-overlay-time-status-renderer[overlay-style="SHORTS"]),
+
+  /* Mobile site (m.youtube.com) */
+  ytm-reel-shelf-renderer,
+  ytm-rich-section-renderer:has(ytm-reel-shelf-renderer, ytm-shorts-lockup-view-model, ytm-shorts-lockup-view-model-v2),
+  :is(
+    ytm-rich-item-renderer,
+    ytm-video-with-context-renderer,
+    ytm-compact-video-renderer
+  ):has(a:is([href^="/shorts/"], [href*="youtube.com/shorts/"]))
+) {
+  display: none !important;
+}
+
+/* ---------- Shorts buttons, tabs and filter chips ---------- */
+html:not([data-noshorts-nav="off"]) :is(
+  /* Left sidebar and collapsed mini sidebar */
+  ytd-guide-entry-renderer:has(a:is([title="Shorts" i], [href^="/shorts"])),
+  ytd-mini-guide-entry-renderer[aria-label="Shorts" i],
+  ytd-mini-guide-entry-renderer:has(a:is([title="Shorts" i], [href^="/shorts"])),
+
+  /* Channel page "Shorts" tab */
+  yt-tab-shape[tab-title="Shorts" i],
+
+  /* Mobile bottom bar */
+  ytm-pivot-bar-item-renderer:has(.pivot-shorts),
+
+  /* Elements the content script matched by their "Shorts" label
+     (search filter chips, channel tabs, etc.) */
+  [data-noshorts-nav-hide]
+) {
+  display: none !important;
+}
+
+/* ---------- YouTube Playables (built-in games) ----------
+ * Matched by their /playables links ("View all" button, game cards, sidebar
+ * entry), so this works whatever language YouTube is displayed in. */
+html:not([data-noshorts-games="off"]) :is(
+  /* The "YouTube Playables" shelf on Home */
+  ytd-rich-section-renderer:has(a:is([href^="/playables"], [href*="youtube.com/playables"])),
+  ytd-rich-section-renderer:has(ytd-mini-game-card-view-model),
+  ytd-rich-shelf-renderer:has(a:is([href^="/playables"], [href*="youtube.com/playables"])),
+
+  /* Single game cards anywhere (feeds, search, watch sidebar) */
+  ytd-mini-game-card-view-model,
+  :is(
+    ytd-rich-item-renderer,
+    ytd-video-renderer,
+    ytd-compact-video-renderer,
+    yt-lockup-view-model,
+    grid-shelf-view-model,
+    ytd-shelf-renderer,
+    ytd-horizontal-card-list-renderer
+  ):has(a:is([href^="/playables"], [href*="youtube.com/playables"])),
+
+  /* "Playables" entry in the left sidebar (Explore section) and mini sidebar */
+  :is(ytd-guide-entry-renderer, ytd-mini-guide-entry-renderer):has(a:is([href^="/playables"], [href*="youtube.com/playables"])),
+
+  /* Mobile site (m.youtube.com) */
+  :is(
+    ytm-rich-section-renderer,
+    ytm-rich-item-renderer,
+    ytm-video-with-context-renderer
+  ):has(a:is([href^="/playables"], [href*="youtube.com/playables"]))
+) {
+  display: none !important;
+}
